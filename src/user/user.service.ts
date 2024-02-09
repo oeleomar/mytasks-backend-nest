@@ -17,18 +17,24 @@ export class UserService {
       email: createUserDto.email,
     });
 
-    if (Object.keys(isUserExist).length > 0) {
+    if (isUserExist !== null) {
       throw new BadRequestException('Usuário já cadastrado');
     }
-    console.log(isUserExist);
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
+    try {
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
+      const user = await this.userRepository.save({
+        ...createUserDto,
+        password: hashedPassword,
+      });
 
-    const user = await this.userRepository.save({
-      ...createUserDto,
-      password: hashedPassword,
-    });
+      return { ...user, password: '' };
+    } catch (err) {
+      throw new BadRequestException('Erro ao cadastrar usuário');
+    }
+  }
 
-    return { ...user, password: '' };
+  async findOne(email: string): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ email });
   }
 }
