@@ -1,5 +1,6 @@
+import { Project } from 'src/project/entities/project.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class User extends DefaultEntity {
@@ -11,4 +12,7 @@ export class User extends DefaultEntity {
 
   @Column({ unique: true })
   email: string;
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: Project[];
 }

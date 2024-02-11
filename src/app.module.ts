@@ -4,6 +4,8 @@ import { UserModule } from './user/user.module';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { TaskModule } from './task/task.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -15,9 +17,13 @@ import { ConfigModule } from '@nestjs/config';
       database: './database/database.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      autoLoadEntities: true,
+      relationLoadStrategy: 'join',
     }),
     UserModule,
     AuthModule,
+    TaskModule,
+    ProjectModule,
   ],
   controllers: [],
   providers: [],

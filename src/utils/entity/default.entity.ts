@@ -6,7 +6,7 @@ import {
 
 export default class DefaultEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
