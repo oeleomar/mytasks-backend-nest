@@ -27,6 +27,9 @@ export class Project extends DefaultEntity {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => Task, (task) => task.project)
+  @OneToMany(() => Task, (task) => task.project, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   tasks: Task[];
 }
