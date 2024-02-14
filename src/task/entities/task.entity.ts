@@ -11,16 +11,16 @@ export class Task extends DefaultEntity {
   description: string;
 
   @Column()
-  status: string;
+  status: 'pendente' | 'fazendo' | 'concluido' | 'cancelado';
 
   @Column()
-  priority: string;
+  priority: 'baixa' | 'media' | 'alta';
 
   @Column()
   due_date: Date;
 
   @Column()
-  project_id: number;
+  project_id: string;
 
   @ManyToOne(() => Project, (project) => project.tasks)
   @JoinColumn({ name: 'project_id' })
