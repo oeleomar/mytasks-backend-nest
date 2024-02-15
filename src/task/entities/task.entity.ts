@@ -35,6 +35,18 @@ export class Task extends DefaultEntity {
   project: Project;
 
   @ManyToMany(() => Tag, (tag) => tag.tasks)
-  @JoinTable({ name: 'tasks_tags' })
+  @JoinTable({
+    name: 'tasks_tags',
+    joinColumn: {
+      name: 'task_id',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'tasks_tags_task_id',
+    },
+    inverseJoinColumn: {
+      name: 'tag_id',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'tasks_tags_tag_id',
+    },
+  })
   tags: Tag[];
 }

@@ -43,7 +43,10 @@ export class TaskService {
     if (!id || id === '') throw new BadRequestException('ID não enviado');
 
     try {
-      return await this.taskRepository.findOneByOrFail({ id });
+      return await this.taskRepository.findOneOrFail({
+        where: { id },
+        relations: ['project', 'tags'],
+      });
     } catch (err) {
       throw new NotFoundException(
         'Não foi possível buscar o registro, tente novamente mais tarde.',
