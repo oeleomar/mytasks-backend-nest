@@ -15,12 +15,18 @@ export class ProjectService {
     @InjectRepository(Project) private projectRepository: Repository<Project>,
   ) {}
 
-  create(createProjectDto: CreateProjectDto) {
+  async create(createProjectDto: CreateProjectDto) {
     !createProjectDto.due_date && (createProjectDto.due_date = new Date());
     !createProjectDto.status && (createProjectDto.status = 'pendente');
     !createProjectDto.priority && (createProjectDto.priority = 'media');
 
-    return this.projectRepository.save(createProjectDto);
+    try {
+      return await this.projectRepository.save(createProjectDto);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        'Erro ao criar projeto, tente novamente mais tarde',
+      );
+    }
   }
 
   async findAll(id: string) {

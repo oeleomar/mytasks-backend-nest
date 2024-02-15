@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TaskModule } from './task/task.module';
 import { ProjectModule } from './project/project.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProjectModule } from './project/project.module';
     AuthModule,
     TaskModule,
     ProjectModule,
+    TagsModule,
   ],
   controllers: [],
   providers: [],

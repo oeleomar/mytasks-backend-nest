@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -15,13 +16,24 @@ export class TaskService {
     @InjectRepository(Task) private taskRepository: Repository<Task>,
   ) {}
 
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  async create(createTaskDto: CreateTaskDto) {
+    !createTaskDto.due_date && (createTaskDto.due_date = new Date());
+    !createTaskDto.status && (createTaskDto.status = 'pendente');
+    !createTaskDto.priority && (createTaskDto.priority = 'media');
+
+    try {
+      return await this.taskRepository.save(createTaskDto);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException(
+        'Erro ao criar tarefa, tente novamente mais tarde',
+      );
+    }
   }
 
   findAll() {
     try {
-      return this.taskRepository.find({ relations: ['project'] });
+      return this.taskRepository.find({ relations: ['project', 'tags'] });
     } catch (err) {
       throw new BadRequestException();
     }
@@ -33,7 +45,7 @@ export class TaskService {
     try {
       return await this.taskRepository.findOneByOrFail({ id });
     } catch (err) {
-      throw new InternalServerErrorException(
+      throw new NotFoundException(
         'Não foi possível buscar o registro, tente novamente mais tarde.',
       );
     }
