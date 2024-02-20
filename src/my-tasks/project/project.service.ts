@@ -21,8 +21,10 @@ export class ProjectService {
     !createProjectDto.priority && (createProjectDto.priority = 'media');
 
     try {
+      console.log(createProjectDto);
       return await this.projectRepository.save(createProjectDto);
     } catch (err) {
+      console.log(err);
       throw new InternalServerErrorException(
         'Erro ao criar projeto, tente novamente mais tarde',
       );
@@ -35,7 +37,7 @@ export class ProjectService {
     try {
       return await this.projectRepository.find({
         where: { user_id: id },
-        relations: ['tasks'],
+        relations: ['tasks', 'tags'],
       });
     } catch (err) {
       throw new InternalServerErrorException('Erro ao buscar projetos');

@@ -1,7 +1,16 @@
+import { Tag } from 'src/my-tasks/tags/entities/tag.entity';
 import { Task } from 'src/my-tasks/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('projects')
 export class Project extends DefaultEntity {
@@ -32,4 +41,7 @@ export class Project extends DefaultEntity {
     onDelete: 'CASCADE',
   })
   tasks: Task[];
+
+  @ManyToMany(() => Tag, (tag) => tag.projects)
+  tags: Tag[];
 }
