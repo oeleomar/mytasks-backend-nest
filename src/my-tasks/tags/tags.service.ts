@@ -17,7 +17,6 @@ export class TagsService {
       const tag = await this.tagRepository.create(createTagDto);
       return this.tagRepository.save(tag);
     } catch (err) {
-      console.log(err);
       throw new NotFoundException('Erro ao criar a tag.');
     }
   }
@@ -68,7 +67,6 @@ export class TagsService {
 
       return await this.tagRepository.remove(tag, { transaction: false });
     } catch (err) {
-      console.log(err);
       throw new NotFoundException('Tag não encontrada.');
     }
   }
