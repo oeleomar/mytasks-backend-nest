@@ -4,9 +4,7 @@ import { UserModule } from './user/user.module';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { TaskModule } from './task/task.module';
-import { ProjectModule } from './project/project.module';
-import { TagsModule } from './tags/tags.module';
+import { MyTasksModule } from './my-tasks/my-tasks.module';
 
 @Module({
   imports: [
@@ -23,9 +21,7 @@ import { TagsModule } from './tags/tags.module';
     }),
     UserModule,
     AuthModule,
-    TaskModule,
-    ProjectModule,
-    TagsModule,
+    MyTasksModule,
   ],
   controllers: [],
   providers: [],

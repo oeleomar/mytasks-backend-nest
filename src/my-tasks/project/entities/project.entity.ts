@@ -1,4 +1,4 @@
-import { Task } from 'src/task/entities/task.entity';
+import { Task } from 'src/my-tasks/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';

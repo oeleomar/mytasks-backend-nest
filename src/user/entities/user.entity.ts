@@ -1,4 +1,4 @@
-import { Project } from 'src/project/entities/project.entity';
+import { Project } from 'src/my-tasks/project/entities/project.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 

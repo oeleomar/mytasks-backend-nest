@@ -1,5 +1,5 @@
-import { Project } from 'src/project/entities/project.entity';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { Project } from 'src/my-tasks/project/entities/project.entity';
+import { Tag } from 'src/my-tasks/tags/entities/tag.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
 import {
   Column,
