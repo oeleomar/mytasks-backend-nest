@@ -1,4 +1,5 @@
 import { Project } from 'src/my-tasks/project/entities/project.entity';
+import { RecurringTask } from 'src/my-tasks/recurring-task/entities/recurring-task.entity';
 import { Tag } from 'src/my-tasks/tags/entities/tag.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
@@ -19,4 +20,7 @@ export class User extends DefaultEntity {
 
   @ManyToOne(() => Tag, (tag) => tag.user)
   tags: Tag[];
+
+  @OneToMany(() => RecurringTask, (recurringTask) => recurringTask.user)
+  recurring_tasks: RecurringTask[];
 }

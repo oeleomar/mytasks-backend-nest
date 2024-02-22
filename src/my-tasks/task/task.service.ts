@@ -9,11 +9,13 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from './entities/task.entity';
+import { RecurringTaskService } from '../recurring-task/recurring-task.service';
 
 @Injectable()
 export class TaskService {
   constructor(
     @InjectRepository(Task) private taskRepository: Repository<Task>,
+    private readonly recurringTaskService: RecurringTaskService,
   ) {}
 
   async create(createTaskDto: CreateTaskDto) {
@@ -22,7 +24,21 @@ export class TaskService {
     !createTaskDto.priority && (createTaskDto.priority = 'media');
 
     try {
-      return await this.taskRepository.save(createTaskDto);
+      const task = await this.taskRepository.save(createTaskDto);
+
+      if (createTaskDto.recurring) {
+        !createTaskDto.start_date && (createTaskDto.start_date = new Date());
+        !createTaskDto.end_date && (createTaskDto.end_date = new Date());
+        !createTaskDto.recurring_type &&
+          (createTaskDto.recurring_type = 'diário');
+
+        return await this.recurringTaskService.create({
+          ...createTaskDto,
+          task_original_id: task.id,
+        });
+      }
+
+      return task;
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException(

@@ -1,6 +1,7 @@
 import { Task } from 'src/my-tasks/task/entities/task.entity';
+import { User } from 'src/user/entities/user.entity';
 import DefaultEntity from 'src/utils/entity/default.entity';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity()
 export class RecurringTask extends DefaultEntity {
@@ -8,7 +9,7 @@ export class RecurringTask extends DefaultEntity {
   task_original_id: string;
 
   @Column()
-  recurring_type: 'diário' | 'semanal' | 'mensal' | 'anual';
+  recurring_type: 'diário' | 'semanal' | 'mensal' | 'anual' | '';
 
   @Column()
   start_date: Date;
@@ -16,6 +17,14 @@ export class RecurringTask extends DefaultEntity {
   @Column({ nullable: true })
   end_date: Date;
 
+  @Column()
+  user_id: string;
+
   @OneToOne(() => Task, (task) => task.recurring_task)
+  @JoinColumn({ name: 'task_original_id' })
   task: Task;
+
+  @ManyToOne(() => User, (user) => user.recurring_tasks)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

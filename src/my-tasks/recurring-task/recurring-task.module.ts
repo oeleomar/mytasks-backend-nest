@@ -8,5 +8,6 @@ import { RecurringTask } from './entities/recurring-task.entity';
   controllers: [RecurringTaskController],
   providers: [RecurringTaskService],
   imports: [TypeOrmModule.forFeature([RecurringTask])],
+  exports: [RecurringTaskService],
 })
 export class RecurringTaskModule {}

@@ -1,6 +1,7 @@
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { CreateRecurringTaskDto } from 'src/my-tasks/recurring-task/dto/create-recurring-task.dto';
 
-export class CreateTaskDto {
+export class CreateTaskDto extends CreateRecurringTaskDto {
   @IsString()
   @IsNotEmpty({ message: 'Nome Obrigatório' })
   name: string;
@@ -20,4 +21,6 @@ export class CreateTaskDto {
 
   @IsString()
   project_id: string;
+
+  recurring: boolean;
 }

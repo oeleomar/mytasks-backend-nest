@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RecurringTaskService } from './recurring-task.service';
 import { CreateRecurringTaskDto } from './dto/create-recurring-task.dto';
 import { UpdateRecurringTaskDto } from './dto/update-recurring-task.dto';
@@ -7,14 +15,9 @@ import { UpdateRecurringTaskDto } from './dto/update-recurring-task.dto';
 export class RecurringTaskController {
   constructor(private readonly recurringTaskService: RecurringTaskService) {}
 
-  @Post()
-  create(@Body() createRecurringTaskDto: CreateRecurringTaskDto) {
-    return this.recurringTaskService.create(createRecurringTaskDto);
-  }
-
   @Get()
-  findAll() {
-    return this.recurringTaskService.findAll();
+  findAll(@Body('user_id') user_id: string) {
+    return this.recurringTaskService.findAll(user_id);
   }
 
   @Get(':id')
@@ -23,7 +26,10 @@ export class RecurringTaskController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecurringTaskDto: UpdateRecurringTaskDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateRecurringTaskDto: UpdateRecurringTaskDto,
+  ) {
     return this.recurringTaskService.update(+id, updateRecurringTaskDto);
   }
 
