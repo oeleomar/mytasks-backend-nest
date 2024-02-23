@@ -9,6 +9,9 @@ export class RecurringTask extends DefaultEntity {
   task_original_id: string;
 
   @Column()
+  recurring_name: string;
+
+  @Column()
   recurring_type: 'diário' | 'semanal' | 'mensal' | 'anual' | '';
 
   @Column()

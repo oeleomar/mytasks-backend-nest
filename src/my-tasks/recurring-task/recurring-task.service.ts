@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRecurringTaskDto } from './dto/create-recurring-task.dto';
 import { UpdateRecurringTaskDto } from './dto/update-recurring-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -38,15 +43,50 @@ export class RecurringTaskService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recurringTask`;
+  async findOne(id: string) {
+    if (!id) throw new BadRequestException('Id não informado');
+
+    try {
+      return await this.recurringTaskRepository.findOne({
+        where: { id },
+        relations: ['task'],
+      });
+    } catch (err) {
+      throw new NotFoundException('Erro ao buscar tarefa recorrente');
+    }
   }
 
-  update(id: number, updateRecurringTaskDto: UpdateRecurringTaskDto) {
-    return `This action updates a #${id} recurringTask`;
+  async update(id: string, updateRecurringTaskDto: UpdateRecurringTaskDto) {
+    if (!id) throw new BadRequestException('Id não informado');
+
+    !updateRecurringTaskDto.start_date &&
+      (updateRecurringTaskDto.start_date = new Date());
+    !updateRecurringTaskDto.end_date &&
+      (updateRecurringTaskDto.end_date = new Date());
+    !updateRecurringTaskDto.recurring_type &&
+      (updateRecurringTaskDto.recurring_type = 'diário');
+
+    try {
+      return await this.recurringTaskRepository.update(
+        id,
+        updateRecurringTaskDto,
+      );
+    } catch (err) {
+      throw new InternalServerErrorException(
+        'Erro ao atualizar tarefa recorrente',
+      );
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recurringTask`;
+  async remove(id: string) {
+    if (!id) throw new BadRequestException('Id não informado');
+
+    try {
+      return await this.recurringTaskRepository.delete(id);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        'Erro ao deletar tarefa recorrente',
+      );
+    }
   }
 }

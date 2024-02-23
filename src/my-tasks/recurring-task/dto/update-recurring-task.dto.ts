@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateRecurringTaskDto } from './create-recurring-task.dto';
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateRecurringTaskDto extends PartialType(CreateRecurringTaskDto) {}
+export class UpdateRecurringTaskDto {
+  @IsNotEmpty({ message: 'Informe o nome da tarefa' })
+  recurring_name?: string;
+
+  recurring_type?: 'diário' | 'semanal' | 'mensal' | 'anual' | '';
+
+  start_date?: Date;
+
+  end_date?: Date;
+}

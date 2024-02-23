@@ -1,6 +1,8 @@
 export class CreateRecurringTaskDto {
   user_id?: string;
 
+  recurring_name?: string;
+
   task_original_id?: string;
 
   recurring_type?: 'diário' | 'semanal' | 'mensal' | 'anual' | '';

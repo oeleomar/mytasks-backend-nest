@@ -31,6 +31,8 @@ export class TaskService {
         !createTaskDto.end_date && (createTaskDto.end_date = new Date());
         !createTaskDto.recurring_type &&
           (createTaskDto.recurring_type = 'diário');
+        !createTaskDto.recurring_name &&
+          (createTaskDto.recurring_name = createTaskDto.name);
 
         return await this.recurringTaskService.create({
           ...createTaskDto,

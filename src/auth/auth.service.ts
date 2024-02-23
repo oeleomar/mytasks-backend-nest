@@ -21,9 +21,10 @@ export class AuthService {
     }
 
     const payload = { name: user.name, sub: user.id };
-    console.log(process.env.JWT_SECRET);
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '15d',
+      }),
     };
   }
 }
